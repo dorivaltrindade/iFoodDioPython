@@ -19,7 +19,7 @@ Exibirá 4 opções:
   - DEPOSITAR
   - SACAR
   - EXIBIR EXTRATO
-  - ENCERRAR O SISTEMA
+  - SAIR (encerrar o sistema)
 Após cada operação, o sistema voltará à tela de opções.
 
 ## REGRAS
