@@ -7,7 +7,7 @@ Atividades relacionadas ao bootcamp Potência Tech powered by iFood | Ciências 
 Criar um sistema bancário com as operações: sacar, depositar e visualizar extrato.
 
 ## Desafio
-Contratado por um banco para desenvolver um protótio para um futuro sistema. 
+Contratado por um banco para desenvolver um protótipo para um futuro sistema. 
 Esse banco deseja modernizar suas operações e para isso escolheu a linguagem Python.
 Para a primeira versão do sistema devemos implementar apenas 3 operações:
 - DEPOSITAR
@@ -26,7 +26,7 @@ Após cada operação, o sistema voltará à tela de opções.
 ### Operação de Depósito
 - Só serão aceitos depósitos de valores numéricos positivos e maiores do que zero.
 - Só existem uma agência, uma conta corrente e um correntista não identificados.
-- O armazenamento da operação é feita em memória e em uma variável única.
+- O armazenamento da operação é feito em memória e em uma variável única.
 - Cada depósito deverá ser exibido na operação de Exibir Extrato.
 
 ### Operação de Saque
@@ -35,7 +35,7 @@ Após cada operação, o sistema voltará à tela de opções.
 - Só serão realizados saques no valor de até R$ 500,00 por operação.
 - Quando o saldo em conta for inferior ao pedido de saque, a operação não acontecerá 
   e um aviso será exibido na tela, informando falta de saldo.
-- O armazenamento da operação é feita em memória e em uma variável única.
+- O armazenamento da operação é feito em memória e em uma variável única.
 - Cada saque deverá ser exibido na operação de Exibir Extrato.
 
 ### Operação de Exibir Extrato
