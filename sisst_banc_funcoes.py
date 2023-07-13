@@ -83,9 +83,9 @@ def criar_conta_corrente(agencia, numero_conta, correntistas):
 def listar_contas_corrente(contas):
     for conta in contas:
         linha = f"""\n
-                Agência:\t{conta['agencia']}
-                C/C:\t\t{conta['numero_conta']}
-                Titular:\t{conta['correntista']['nome']}
+                Agência:  {conta['agencia']}
+                C/C:      {conta['numero_conta']}
+                Titular:  {conta['correntista']['nome']}
             """
         print("-" * 30)
         print(textwrap.dedent(linha))
