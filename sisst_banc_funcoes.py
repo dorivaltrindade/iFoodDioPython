@@ -1,15 +1,7 @@
 import textwrap
 
 
-def escolheu(letra):
-
-    opcoes = {'N': 'Cadastrar novo correntista',
-              'C': 'Criar nova conta corrente',
-              'L': 'Listar contas correte',
-              'D': 'Depositar valor',
-              'S': 'Sacar valor',
-              'E': 'Exibindo o extrato',
-              'Q': 'Encerrando o sistema'}
+def escolheu(letra, opcoes):
 
     print(opcoes[letra], end="... ")
 
@@ -81,6 +73,15 @@ def pesquisar_correntista(cpf, correntistas):
     # se não encontrar ninguém, retorna NONE
 
 def main():
+
+    opcoes = {'N': 'Cadastrar novo correntista',
+              'C': 'Criar nova conta corrente',
+              'L': 'Listar contas correte',
+              'D': 'Depositar valor',
+              'S': 'Sacar valor',
+              'E': 'Exibindo o extrato',
+              'Q': 'Encerrando o sistema'}
+
     saldo = 0
     limite = 500
     extrato = ""
@@ -96,7 +97,7 @@ def main():
 
         opcao = menu()
         valor = 0
-        escolheu(opcao)
+        escolheu(opcao,opcoes)
 
         if opcao == "D":  # DEPOSITAR
 
