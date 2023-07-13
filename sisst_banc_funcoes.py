@@ -3,7 +3,7 @@ import textwrap
 
 def escolheu(letra, opcoes):
 
-    print(opcoes[letra], end="... ")
+    print("\n",opcoes[letra], end="... \n")
 
 
 def msg_continuar():
