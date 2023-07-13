@@ -18,6 +18,7 @@ def menu():
     ╰───────────────────────────────────────╯
     ╭───────────────────────────────────────╮
     │      [ N ]  \t->  Novo Correntista    │
+    │      [ O ]  \t->  Listar Correntistas │    
     │      [ C ]  \t->  Nova Conta          │
     │      [ L ]  \t->  Listar Contas       │
     ╰───────────────────────────────────────╯
@@ -30,8 +31,8 @@ def menu():
     │      [ Q ]  \t->  Sair                │
     ╰───────────────────────────────────────╯
      ==> """
-    # opcao = input(menu).upper()
-    return input(textwrap.dedent(menu)).upper()
+    # opcao = input(menu)[0].upper()
+    return input(textwrap.dedent(menu))[0].upper()
 
 
 def cadastrar_correntista(correntistas):
@@ -55,12 +56,39 @@ def cadastrar_correntista(correntistas):
         print(f"\nCliente , {cpf}, cadastrado com sucesso!\n")
         msg_continuar()
 
-def criar_conta_corrente():
-    print("Função não programada!")
+def listar_correntistas(correntistas):
+    for correntista in correntistas:
+        linha = f"""\
+                Nome:               {correntista['nome']}
+                Data de Nascimento: {correntista['data_nascimento']}
+                CPF:                {correntista['cpf']}
+                Endereço:           {correntista['endereco']}
+            """
+        print("-" * 30)
+        print(textwrap.dedent(linha))
+    #print(correntistas)
     msg_continuar()
 
-def listar_contas_corrente():
-    print("Função não programada!")
+def criar_conta_corrente(agencia, numero_conta, correntistas):
+    cpf = input("Informe o CPF do usuário: ")
+    correntista = pesquisar_correntista(cpf, correntistas)
+
+    if correntista:
+        print("\n=== Conta criada com sucesso! ===")
+        return {"agencia": agencia, "numero_conta": numero_conta, "correntista": correntista}
+
+    print("\n@@@ Usuário não encontrado, fluxo de criação de conta encerrado! @@@")
+
+
+def listar_contas_corrente(contas):
+    for conta in contas:
+        linha = f"""\n
+                Agência:\t{conta['agencia']}
+                C/C:\t\t{conta['numero_conta']}
+                Titular:\t{conta['correntista']['nome']}
+            """
+        print("-" * 30)
+        print(textwrap.dedent(linha))
     msg_continuar()
 
 def pesquisar_correntista(cpf, correntistas):
@@ -74,7 +102,11 @@ def pesquisar_correntista(cpf, correntistas):
 
 def main():
 
+    AGENCIA = '0001'
+    LIMITE_SAQUES = 3
+
     opcoes = {'N': 'Cadastrar novo correntista',
+              'O': 'Listar correntistas',
               'C': 'Criar nova conta corrente',
               'L': 'Listar contas correte',
               'D': 'Depositar valor',
@@ -86,7 +118,8 @@ def main():
     limite = 500
     extrato = ""
     numero_saques = 0
-    LIMITE_SAQUES = 3
+
+    numero_conta = 0
     correntistas = []
     contas = []
 
@@ -165,11 +198,17 @@ def main():
         elif opcao == "N":
             cadastrar_correntista(correntistas)
 
+        elif opcao == "O":
+            listar_correntistas(correntistas)
+
         elif opcao =="C":
-            criar_conta_corrente()
+            numero_conta = len(contas) + 1
+            nova_conta = criar_conta_corrente(AGENCIA, numero_conta, correntistas)
+            contas.append(nova_conta) if nova_conta else None
 
         elif opcao =="L":
-            listar_contas_corrente()
+            listar_contas_corrente(contas)
+
 
         else:
             print("Opção não reconhecida! Por favor, selecione outra.\n")
