@@ -2,8 +2,7 @@ import textwrap
 
 
 def escolheu(letra, opcoes):
-
-    print("\n",opcoes[letra], end="... \n")
+    print("\n►►►", opcoes[letra], end="... \n")
 
 
 def msg_continuar():
@@ -30,13 +29,18 @@ def menu():
     ╭───────────────────────────────────────╮
     │      [ Q ]  \t->  Sair                │
     ╰───────────────────────────────────────╯
-     ==> """
+     ►►► """
     # opcao = input(menu)[0].upper()
     return input(textwrap.dedent(menu))[0].upper()
 
 
-def cadastrar_correntista(correntistas):
-    cpf = input("Digite o CPF (somente números): ")
+def cadastrar_correntista(correntistas, cpf):
+    cpf = input("Digite o CPF (somente números): ") if cpf == '' else cpf
+
+    if cpf == '':
+        print("\n A V I S O: o CPF não foi informado!\n")
+        msg_continuar()
+        return
 
     novo_correntista = pesquisar_correntista(cpf, correntistas)
 
@@ -56,6 +60,7 @@ def cadastrar_correntista(correntistas):
         print(f"\nCliente , {cpf}, cadastrado com sucesso!\n")
         msg_continuar()
 
+
 def listar_correntistas(correntistas):
     for correntista in correntistas:
         linha = f"""\
@@ -66,23 +71,30 @@ def listar_correntistas(correntistas):
             """
         print("-" * 30)
         print(textwrap.dedent(linha))
-    #print(correntistas)
+
     msg_continuar()
+
 
 def criar_conta_corrente(agencia, numero_conta, correntistas):
     cpf = input("Informe o CPF do usuário: ")
     correntista = pesquisar_correntista(cpf, correntistas)
 
     if correntista:
-        print("\n=== Conta criada com sucesso! ===")
         return {"agencia": agencia, "numero_conta": numero_conta, "correntista": correntista}
+    else:
+        print(f"\n A V I S O: CPF {cpf} não encontrado!")
 
-    print("\n@@@ Usuário não encontrado, fluxo de criação de conta encerrado! @@@")
+        if input(f"\nGostaria de cadastrar o CPF {cpf} aogra? (S/N)")[0].upper() == "S":
+            cadastrar_correntista(correntistas, cpf)
+            return {"agencia": agencia, "numero_conta": numero_conta,
+                    "correntista": correntistas[len(correntistas) - 1]}
+
+    return None
 
 
 def listar_contas_corrente(contas):
     for conta in contas:
-        linha = f"""\n
+        linha = f"""
                 Agência:  {conta['agencia']}
                 C/C:      {conta['numero_conta']}
                 Titular:  {conta['correntista']['nome']}
@@ -91,8 +103,8 @@ def listar_contas_corrente(contas):
         print(textwrap.dedent(linha))
     msg_continuar()
 
-def pesquisar_correntista(cpf, correntistas):
 
+def pesquisar_correntista(cpf, correntistas):
     # cria uma lista de correntistas cadastrados
     correntista_existente = [correntista for correntista in correntistas if correntista["cpf"] == cpf]
 
@@ -100,8 +112,8 @@ def pesquisar_correntista(cpf, correntistas):
     return correntista_existente[0] if correntista_existente else None
     # se não encontrar ninguém, retorna NONE
 
-def main():
 
+def main():
     AGENCIA = '0001'
     LIMITE_SAQUES = 3
 
@@ -125,15 +137,13 @@ def main():
 
     # TRATANDO_AS_OPERAÇÕES
 
-
     while True:
 
         opcao = menu()
         valor = 0
-        escolheu(opcao,opcoes)
+        escolheu(opcao, opcoes)
 
         if opcao == "D":  # DEPOSITAR
-
 
             valor = float(input("Informe o valor do depósito: "))
 
@@ -157,19 +167,16 @@ def main():
                 msg_continuar()
             else:
                 valor = float(input("Informe o valor do saque: "))
-
                 excedeu_saldo = valor > saldo
-
                 excedeu_limite = valor > limite
 
                 if excedeu_saldo:
-
                     print("Operação abortada! Não há saldo suficiente.\n")
                     msg_continuar()
 
                 elif excedeu_limite:
-
-                    print(f"Operação não permitida! O valor limite de R${limite: 6.2f} por saque não pode ser excedido.\n")
+                    print(
+                        f"Operação não permitida! O valor limite de R${limite: 6.2f} por saque não pode ser excedido.\n")
                     msg_continuar()
 
                 elif valor > 0:
@@ -196,22 +203,30 @@ def main():
             break
 
         elif opcao == "N":
-            cadastrar_correntista(correntistas)
+            cpf = ''
+            cadastrar_correntista(correntistas, cpf)
 
         elif opcao == "O":
             listar_correntistas(correntistas)
 
-        elif opcao =="C":
+        elif opcao == "C":  # criar novas contas corrente
             numero_conta = len(contas) + 1
             nova_conta = criar_conta_corrente(AGENCIA, numero_conta, correntistas)
-            contas.append(nova_conta) if nova_conta else None
+            if nova_conta:
+                contas.append(nova_conta)
+                print(contas)
+                print(
+                    f"\n======== Nova Conta criada com sucesso! ========\n\n\t[AG: {AGENCIA}] [C/C: {numero_conta}] [CPF: {correntistas[0]['cpf']}]\n\t[Correntista: {correntistas[0]['nome']}]\n")
 
-        elif opcao =="L":
+            msg_continuar()
+
+        elif opcao == "L":
             listar_contas_corrente(contas)
 
 
         else:
             print("Opção não reconhecida! Por favor, selecione outra.\n")
             msg_continuar()
+
 
 main()  # colocando o sistema em funcionamento
