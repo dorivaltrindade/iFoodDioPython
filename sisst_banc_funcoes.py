@@ -8,6 +8,9 @@ def escolheu(letra, opcoes):
 def msg_continuar():
     input("Pressione a tecla [ ENTER ] para continuar ...")
 
+def cpf_numeros(cpf):   # FUNÇÃO PARA ELIMINAR QUALQUER OUTRO CARACTER NÃO NUMÉRICO DO CPF
+    cpfaux=(''.join(c for c in cpf if c.isdigit()))
+    return cpfaux
 
 def menu():
     menu = """
@@ -36,6 +39,8 @@ def menu():
 
 def cadastrar_correntista(correntistas, cpf):
     cpf = input("Digite o CPF (somente números): ") if cpf == '' else cpf
+
+    cpf = cpf_numeros(cpf) # CHAMADO DA FUNÇÃO ELIMINAR QUALQUER OUTRO CARACTER DO CPF
 
     if cpf == '':
         print("\n A V I S O: o CPF não foi informado!\n")
@@ -77,6 +82,9 @@ def listar_correntistas(correntistas):
 
 def criar_conta_corrente(agencia, numero_conta, correntistas):
     cpf = input("Informe o CPF do usuário: ")
+
+    cpf=cpf_numeros(cpf)
+
     correntista = pesquisar_correntista(cpf, correntistas)
 
     if correntista:
