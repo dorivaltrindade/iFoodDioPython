@@ -12,6 +12,14 @@ def cpf_numeros(cpf):   # FUNÇÃO PARA ELIMINAR QUALQUER OUTRO CARACTER NÃO NU
     cpfaux=(''.join(c for c in cpf if c.isdigit()))
     return cpfaux
 
+def exibir_extrato(saldo,/,*,extrato):
+    print("\n================ EXTRATO ================")
+    print("Não foram realizadas movimentações." if not extrato else extrato)
+    print("\n__________________________________________")
+    print(f"SALDO: R$ {saldo: 0.2f}")
+    print("==========================================\n")
+    msg_continuar()
+
 def menu():
     menu = """
     ╭───────────────────────────────────────╮
@@ -199,13 +207,8 @@ def main():
                     msg_continuar()
 
         elif opcao == "E":  # EXIBIR EXTRATO
+            exibir_extrato(saldo,extrato=extrato)
 
-            print("\n================ EXTRATO ================")
-            print("Não foram realizadas movimentações." if not extrato else extrato)
-            print("\n__________________________________________")
-            print(f"SALDO: R$ {saldo: 0.2f}")
-            print("==========================================\n")
-            msg_continuar()
 
         elif opcao == "Q":  # ENCERRAR O SISTEMA
             break
